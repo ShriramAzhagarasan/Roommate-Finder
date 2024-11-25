@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.layout.Region?>
+
+
+
+
+
+<BorderPane xmlns:fx="http://javafx.com/fxml" xmlns="http://javafx.com/javafx"
+            fx:controller="controller.MainListingPageController" fx:id="rootPane">
+
+    <!-- Top Bar -->
+   <top>
+        <HBox spacing="10" styleClass="top-bar">
+         <Label text="Roommate Finder" styleClass="app-title" />
+             <Button fx:id="homeButton" text="Home" />
+            <Button fx:id="NewPostButton" text="New Post" />
+            <Button fx:id="profileButton" text="Profile" />
+            
+             <!-- Spacer to push Filter Icon to the Right -->
+            <Region HBox.hgrow="ALWAYS" />
+            
+             <!-- Log Out Button -->
+            <Button fx:id="logOutButton" text="Log Out" />
+      
+            <!-- Toggle Filters Button -->
+            <Button fx:id="toggleFiltersButton">
+                <graphic>
+                    <ImageView fx:id="filterIcon" fitHeight="20" fitWidth="20" />
+                </graphic>
+            </Button>
+        
+        </HBox>
+    </top>
+
+    <!-- Right Sidebar (Filters) -->
+    
+         <VBox fx:id="filtersSidebar" spacing="10" styleClass="sidebar" visible="false" managed="false">
+        	<Label text="Filters" styleClass="section-title" />
+            
+            <Label text="Location" />
+       		 <ComboBox fx:id="locationFilter" promptText="Select Location" />
+        
+            <Label text="Budget" />
+			<HBox spacing="10">
+    			<TextField fx:id="minBudgetFilter" promptText="Min Budget" />
+    			<TextField fx:id="maxBudgetFilter" promptText="Max Budget" />
+			</HBox>
+
+            <Label text="Accommodation Type" />
+            <ComboBox fx:id="typeFilter" />
+            
+            <Label text="Dates" />
+    		<DatePicker fx:id="moveInDateFilter" promptText="Move-in Date" />
+    		<DatePicker fx:id="moveOutDateFilter" promptText="Move-out Date" />
+    		
+    		<Label text="Room Type" />
+			<ComboBox fx:id="roomTypeFilter" promptText="Select Room Type" />
+			
+            
+            
+            <Button text="Apply Filters" onAction="#applyFilters" />
+        </VBox>
+    
+
+    <!-- Main Content Area (Listings) -->
+    <center>
+        <ScrollPane>
+            <GridPane fx:id="listingsGrid" hgap="10" vgap="10">
+                <!-- Dynamic Listing Items Go Here -->
+            </GridPane>
+        </ScrollPane>
+    </center>
+
+</BorderPane>
