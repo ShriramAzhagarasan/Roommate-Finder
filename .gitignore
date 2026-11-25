@@ -1,0 +1,7 @@
+# Build output (run.sh compiles to out/, Eclipse to bin/)
+out/
+bin/
+
+# macOS
+.DS_Store
+

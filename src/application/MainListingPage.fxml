@@ -1,82 +1,157 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.image.Image?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
 
+<BorderPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+            fx:controller="controller.MainListingPageController" fx:id="rootPane" styleClass="explore">
+    <fx:define>
+        <ToggleGroup fx:id="typeChips"/>
+        <ToggleGroup fx:id="roomChips"/>
+    </fx:define>
 
-
-
-
-<BorderPane xmlns:fx="http://javafx.com/fxml" xmlns="http://javafx.com/javafx"
-            fx:controller="controller.MainListingPageController" fx:id="rootPane">
-
-    <!-- Top Bar -->
-   <top>
-        <HBox spacing="10" styleClass="top-bar">
-         <Label text="Roommate Finder" styleClass="app-title" />
-             <Button fx:id="homeButton" text="Home" />
-            <Button fx:id="NewPostButton" text="New Post" />
-            <Button fx:id="profileButton" text="Profile" />
-            
-             <!-- Spacer to push Filter Icon to the Right -->
-            <Region HBox.hgrow="ALWAYS" />
-            
-             <!-- Log Out Button -->
-            <Button fx:id="logOutButton" text="Log Out" />
-      
-            <!-- Toggle Filters Button -->
-            <Button fx:id="toggleFiltersButton">
-                <graphic>
-                    <ImageView fx:id="filterIcon" fitHeight="20" fitWidth="20" />
-                </graphic>
-            </Button>
-        
-        </HBox>
+    <!-- Search and quick filters -->
+    <top>
+        <VBox styleClass="explore-header" spacing="14">
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <HBox fx:id="searchBox" styleClass="search-box" alignment="CENTER_LEFT" spacing="8"
+                      HBox.hgrow="ALWAYS" maxWidth="620">
+                    <StackPane fx:id="searchIconHolder"/>
+                    <TextField fx:id="searchBar" styleClass="search-field" HBox.hgrow="ALWAYS"
+                               promptText="Search by neighborhood, street or keyword"/>
+                    <Button fx:id="clearSearchButton" styleClass="icon-button" onAction="#clearSearch"
+                            visible="false" managed="false" focusTraversable="false"/>
+                </HBox>
+                <ComboBox fx:id="locationFilter" styleClass="soft-combo" prefWidth="210"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <Label text="Sort by" styleClass="toolbar-label"/>
+                <ComboBox fx:id="sortBox" styleClass="soft-combo" prefWidth="190"/>
+            </HBox>
+            <HBox spacing="8" alignment="CENTER_LEFT">
+                <ToggleButton fx:id="permanentChip" text="Permanent" styleClass="chip" toggleGroup="$typeChips"/>
+                <ToggleButton fx:id="temporaryChip" text="Temporary" styleClass="chip" toggleGroup="$typeChips"/>
+                <Region styleClass="chip-divider"/>
+                <ToggleButton fx:id="privateChip" text="Private room" styleClass="chip" toggleGroup="$roomChips"/>
+                <ToggleButton fx:id="sharedChip" text="Shared room" styleClass="chip" toggleGroup="$roomChips"/>
+                <Region styleClass="chip-divider"/>
+                <ToggleButton fx:id="petChip" text="Pet-friendly" styleClass="chip"/>
+                <ToggleButton fx:id="nonSmokingChip" text="Non-smoking" styleClass="chip"/>
+                <ToggleButton fx:id="matchChip" text="Matches my profile" styleClass="chip, chip-accent"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <Button fx:id="toggleFiltersButton" text="More filters" styleClass="chip, filter-button"
+                        onAction="#toggleFilters"/>
+            </HBox>
+        </VBox>
     </top>
 
-    <!-- Right Sidebar (Filters) -->
-    
-         <VBox fx:id="filtersSidebar" spacing="10" styleClass="sidebar" visible="false" managed="false">
-        	<Label text="Filters" styleClass="section-title" />
-            
-            <Label text="Location" />
-       		 <ComboBox fx:id="locationFilter" promptText="Select Location" />
-        
-            <Label text="Budget" />
-			<HBox spacing="10">
-    			<TextField fx:id="minBudgetFilter" promptText="Min Budget" />
-    			<TextField fx:id="maxBudgetFilter" promptText="Max Budget" />
-			</HBox>
-
-            <Label text="Accommodation Type" />
-            <ComboBox fx:id="typeFilter" />
-            
-            <Label text="Dates" />
-    		<DatePicker fx:id="moveInDateFilter" promptText="Move-in Date" />
-    		<DatePicker fx:id="moveOutDateFilter" promptText="Move-out Date" />
-    		
-    		<Label text="Room Type" />
-			<ComboBox fx:id="roomTypeFilter" promptText="Select Room Type" />
-			
-            
-            
-            <Button text="Apply Filters" onAction="#applyFilters" />
-        </VBox>
-    
-
-    <!-- Main Content Area (Listings) -->
+    <!-- Listing cards -->
     <center>
-        <ScrollPane>
-            <GridPane fx:id="listingsGrid" hgap="10" vgap="10">
-                <!-- Dynamic Listing Items Go Here -->
-            </GridPane>
-        </ScrollPane>
+        <StackPane>
+            <ScrollPane fx:id="listingsScroll" fitToWidth="true" styleClass="listings-scroll">
+                <VBox styleClass="listings-content" spacing="18">
+                    <HBox alignment="BOTTOM_LEFT" spacing="12" styleClass="results-header">
+                        <VBox spacing="2">
+                            <Label fx:id="resultsLabel" styleClass="results-title"/>
+                            <Label fx:id="resultsSubtitle" styleClass="results-subtitle"/>
+                        </VBox>
+                        <Region HBox.hgrow="ALWAYS"/>
+                        <Hyperlink fx:id="clearAllLink" text="Clear all filters" onAction="#clearAll"
+                                   styleClass="text-link" visible="false" managed="false"/>
+                    </HBox>
+                    <FlowPane fx:id="listingsPane" hgap="20" vgap="22" styleClass="listings-pane"/>
+                    <HBox alignment="CENTER">
+                        <Button fx:id="showMoreButton" onAction="#showMore" styleClass="show-more-button"
+                                visible="false" managed="false"/>
+                    </HBox>
+                </VBox>
+            </ScrollPane>
+            <VBox fx:id="emptyState" alignment="CENTER" spacing="10" visible="false"
+                  maxWidth="-Infinity" maxHeight="-Infinity" styleClass="empty-state">
+                <StackPane fx:id="emptyIconHolder" styleClass="empty-icon"/>
+                <Label text="No rooms match your search" styleClass="empty-title"/>
+                <Label text="Try removing a filter, widening your budget or searching a nearby neighborhood."
+                       styleClass="empty-text" wrapText="true" maxWidth="340"/>
+                <Button text="Clear search and filters" onAction="#clearAll" styleClass="secondary-button"/>
+            </VBox>
+        </StackPane>
     </center>
 
+    <!-- "More filters" panel, shown on demand -->
+    <right>
+        <VBox fx:id="filtersSidebar" styleClass="filter-panel" prefWidth="320" minWidth="320" maxWidth="320">
+            <HBox alignment="CENTER_LEFT" styleClass="filter-panel-header">
+                <VBox spacing="2" HBox.hgrow="ALWAYS">
+                    <Label text="More filters" styleClass="panel-title"/>
+                    <Label fx:id="activeFiltersLabel" styleClass="panel-subtitle"/>
+                </VBox>
+                <Button fx:id="closeFiltersButton" styleClass="icon-button" onAction="#toggleFilters"/>
+            </HBox>
+            <ScrollPane fitToWidth="true" hbarPolicy="NEVER" styleClass="panel-scroll" VBox.vgrow="ALWAYS">
+                <VBox spacing="22" styleClass="filter-panel-body">
+                    <VBox spacing="8">
+                        <Label text="Monthly budget per person" styleClass="filter-heading"/>
+                        <Label text="Rent plus utilities. For temporary stays it's the daily cost × 30."
+                               styleClass="filter-hint" wrapText="true"/>
+                        <HBox spacing="10" alignment="CENTER_LEFT">
+                            <HBox styleClass="money-input" HBox.hgrow="ALWAYS" alignment="CENTER_LEFT">
+                                <Label text="\$" styleClass="money-prefix"/>
+                                <TextField fx:id="minBudgetFilter" promptText="Min" styleClass="money-field"/>
+                            </HBox>
+                            <Label text="–" styleClass="muted"/>
+                            <HBox styleClass="money-input" HBox.hgrow="ALWAYS" alignment="CENTER_LEFT">
+                                <Label text="\$" styleClass="money-prefix"/>
+                                <TextField fx:id="maxBudgetFilter" promptText="Max" styleClass="money-field"/>
+                            </HBox>
+                        </HBox>
+                    </VBox>
+
+                    <VBox spacing="8">
+                        <Label text="Dates" styleClass="filter-heading"/>
+                        <Label text="Only show rooms free for your whole stay." styleClass="filter-hint" wrapText="true"/>
+                        <DatePicker fx:id="moveInDateFilter" promptText="Move-in date" maxWidth="Infinity" editable="false"/>
+                        <DatePicker fx:id="moveOutDateFilter" promptText="Move-out date (optional)" maxWidth="Infinity" editable="false"/>
+                    </VBox>
+
+                    <VBox fx:id="permanentDetails" spacing="8">
+                        <Label text="Utilities, permanent rooms" styleClass="filter-heading"/>
+                        <Label text="Max Wi-Fi + electricity + laundry per person each month" styleClass="filter-hint" wrapText="true"/>
+                        <HBox styleClass="money-input" alignment="CENTER_LEFT">
+                            <Label text="\$" styleClass="money-prefix"/>
+                            <TextField fx:id="maxUtilitiesFilter" promptText="e.g. 100" styleClass="money-field" HBox.hgrow="ALWAYS"/>
+                        </HBox>
+                    </VBox>
+
+                    <VBox fx:id="temporaryDetails" spacing="8">
+                        <Label text="Daily cost, temporary stays" styleClass="filter-heading"/>
+                        <Label text="Max daily rate including utilities" styleClass="filter-hint" wrapText="true"/>
+                        <HBox styleClass="money-input" alignment="CENTER_LEFT">
+                            <Label text="\$" styleClass="money-prefix"/>
+                            <TextField fx:id="maxDailyCostFilter" promptText="e.g. 50" styleClass="money-field" HBox.hgrow="ALWAYS"/>
+                        </HBox>
+                    </VBox>
+
+                    <Label fx:id="filterErrorLabel" styleClass="error-label" wrapText="true" maxWidth="Infinity"
+                           visible="false" managed="false"/>
+                </VBox>
+            </ScrollPane>
+            <HBox spacing="10" alignment="CENTER_LEFT" styleClass="filter-panel-footer">
+                <Button text="Reset" onAction="#clearFilters" styleClass="text-button"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <Button text="Show results" onAction="#applyFilters" styleClass="primary-button"/>
+            </HBox>
+        </VBox>
+    </right>
 </BorderPane>

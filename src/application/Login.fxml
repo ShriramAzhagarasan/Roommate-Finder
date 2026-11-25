@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<StackPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+           fx:controller="controller.LoginController" styleClass="auth-background">
+    <VBox styleClass="auth-card" spacing="10" maxWidth="420" maxHeight="-Infinity">
+        <Hyperlink text="← Back to home" onAction="#goToWelcome" styleClass="back-home"/>
+        <Label text="Roommate Finder" styleClass="auth-title"/>
+        <Label text="Find compatible people to share your space with." styleClass="muted" wrapText="true"/>
+
+        <Label text="Email" styleClass="field-label"/>
+        <TextField fx:id="emailField" promptText="you@northeastern.edu"/>
+        <Label text="Password" styleClass="field-label"/>
+        <PasswordField fx:id="passwordField" promptText="Password"/>
+
+        <Label fx:id="errorLabel" styleClass="error-label" wrapText="true" maxWidth="Infinity" visible="false" managed="false"/>
+
+        <Button text="Log In" defaultButton="true" onAction="#handleLogin" styleClass="primary-button" maxWidth="Infinity"/>
+        <HBox alignment="CENTER" spacing="2">
+            <Label text="New here?" styleClass="muted"/>
+            <Hyperlink text="Create an account" onAction="#goToRegister"/>
+        </HBox>
+        <Separator/>
+        <Label text="Demo accounts: alex@demo.com, priya@demo.com or jordan@demo.com (password: password123)"
+               styleClass="hint" wrapText="true"/>
+    </VBox>
+</StackPane>

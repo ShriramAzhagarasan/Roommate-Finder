@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+            fx:controller="controller.NewPostController" styleClass="editor">
+    <fx:define>
+        <ToggleGroup fx:id="typeGroup"/>
+        <ToggleGroup fx:id="roomTypeGroup"/>
+    </fx:define>
+
+    <!-- The form -->
+    <center>
+        <ScrollPane fitToWidth="true" styleClass="page-scroll">
+            <StackPane alignment="TOP_CENTER">
+                <VBox spacing="20" maxWidth="760" styleClass="page">
+                    <VBox spacing="6">
+                        <Button fx:id="backButton" text="Back" onAction="#cancel" styleClass="back-button"/>
+                        <Label fx:id="pageTitle" text="Post a room" styleClass="page-title"/>
+                        <Label fx:id="pageSubtitle" text="Five quick sections. The preview on the right shows exactly what people will see."
+                               styleClass="page-subtitle" wrapText="true"/>
+                    </VBox>
+
+                    <!-- 1. Basics -->
+                    <VBox spacing="12" styleClass="card, form-section">
+                        <HBox spacing="12" alignment="CENTER_LEFT">
+                            <Label text="1" styleClass="step-badge"/>
+                            <VBox spacing="1">
+                                <Label text="The basics" styleClass="card-heading"/>
+                                <Label text="What kind of place it is and where." styleClass="card-subheading"/>
+                            </VBox>
+                        </HBox>
+
+                        <HBox>
+                            <Label text="Title" styleClass="field-label"/>
+                            <Region HBox.hgrow="ALWAYS"/>
+                            <Label fx:id="titleCounter" styleClass="counter"/>
+                        </HBox>
+                        <TextField fx:id="titleField" promptText="e.g. Sunny private room in a Back Bay brownstone"/>
+
+                        <Label text="Type of stay" styleClass="field-label"/>
+                        <HBox spacing="12">
+                            <ToggleButton fx:id="permanentRadio" toggleGroup="$typeGroup" selected="true"
+                                          styleClass="choice-card" HBox.hgrow="ALWAYS" maxWidth="Infinity">
+                                <graphic>
+                                    <VBox spacing="3">
+                                        <Label text="Permanent" styleClass="choice-title"/>
+                                        <Label text="Monthly rent, with a minimum lease" styleClass="choice-text"/>
+                                    </VBox>
+                                </graphic>
+                            </ToggleButton>
+                            <ToggleButton fx:id="temporaryRadio" toggleGroup="$typeGroup"
+                                          styleClass="choice-card" HBox.hgrow="ALWAYS" maxWidth="Infinity">
+                                <graphic>
+                                    <VBox spacing="3">
+                                        <Label text="Temporary" styleClass="choice-title"/>
+                                        <Label text="Daily rate between fixed dates, e.g. a sublet" styleClass="choice-text"/>
+                                    </VBox>
+                                </graphic>
+                            </ToggleButton>
+                        </HBox>
+
+                        <GridPane hgap="16" vgap="6">
+                            <columnConstraints>
+                                <ColumnConstraints percentWidth="50"/>
+                                <ColumnConstraints percentWidth="50"/>
+                            </columnConstraints>
+                            <Label text="Neighborhood" styleClass="field-label" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                            <ComboBox fx:id="locationBox" promptText="Choose a neighborhood" maxWidth="Infinity" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                            <Label text="Room" styleClass="field-label" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+                            <HBox styleClass="segmented" GridPane.rowIndex="1" GridPane.columnIndex="1">
+                                <ToggleButton fx:id="privateToggle" text="Private room" toggleGroup="$roomTypeGroup" selected="true"
+                                              styleClass="segment, segment-first" HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
+                                <ToggleButton fx:id="sharedToggle" text="Shared room" toggleGroup="$roomTypeGroup"
+                                              styleClass="segment, segment-last" HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
+                            </HBox>
+
+                            <Label text="People living there now" styleClass="field-label" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                            <Spinner fx:id="residentsSpinner" maxWidth="Infinity" styleClass="split-arrows-horizontal" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+                            <Label text="Open spots" styleClass="field-label" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+                            <Spinner fx:id="openSpotsSpinner" maxWidth="Infinity" styleClass="split-arrows-horizontal" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+                        </GridPane>
+                        <HBox spacing="8" alignment="CENTER_LEFT" styleClass="info-note">
+                            <StackPane fx:id="privacyIcon"/>
+                            <Label text="Only the neighborhood is shown publicly. Share your address once you've connected with someone."
+                                   wrapText="true" HBox.hgrow="ALWAYS"/>
+                        </HBox>
+                    </VBox>
+
+                    <!-- 2. Availability -->
+                    <VBox spacing="12" styleClass="card, form-section">
+                        <HBox spacing="12" alignment="CENTER_LEFT">
+                            <Label text="2" styleClass="step-badge"/>
+                            <VBox spacing="1">
+                                <Label text="Availability" styleClass="card-heading"/>
+                                <Label fx:id="availabilityHint" text="When someone can move in." styleClass="card-subheading"/>
+                            </VBox>
+                        </HBox>
+                        <GridPane hgap="16" vgap="6">
+                            <columnConstraints>
+                                <ColumnConstraints percentWidth="50"/>
+                                <ColumnConstraints percentWidth="50"/>
+                            </columnConstraints>
+                            <Label text="Available from" styleClass="field-label" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                            <DatePicker fx:id="availableFromPicker" editable="false" maxWidth="Infinity" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+
+                            <VBox fx:id="untilBox" spacing="6" GridPane.rowIndex="0" GridPane.columnIndex="1" GridPane.rowSpan="2">
+                                <Label text="Available until" styleClass="field-label"/>
+                                <DatePicker fx:id="availableUntilPicker" editable="false" maxWidth="Infinity"/>
+                            </VBox>
+                            <VBox fx:id="leaseBox" spacing="6" GridPane.rowIndex="0" GridPane.columnIndex="1" GridPane.rowSpan="2">
+                                <Label text="Minimum lease (months)" styleClass="field-label"/>
+                                <Spinner fx:id="leaseSpinner" maxWidth="Infinity" styleClass="split-arrows-horizontal"/>
+                            </VBox>
+                        </GridPane>
+                    </VBox>
+
+                    <!-- 3. Pricing -->
+                    <VBox spacing="12" styleClass="card, form-section">
+                        <HBox spacing="12" alignment="CENTER_LEFT">
+                            <Label text="3" styleClass="step-badge"/>
+                            <VBox spacing="1">
+                                <Label text="Cost per person" styleClass="card-heading"/>
+                                <Label text="Be upfront about utilities. Renters filter by the total." styleClass="card-subheading"/>
+                            </VBox>
+                        </HBox>
+                        <Label fx:id="rentLabel" text="Monthly rent" styleClass="field-label"/>
+                        <HBox styleClass="money-input, money-input-large" alignment="CENTER_LEFT">
+                            <Label text="\$" styleClass="money-prefix"/>
+                            <TextField fx:id="rentField" promptText="0" styleClass="money-field" HBox.hgrow="ALWAYS"/>
+                            <Label fx:id="rentUnit" text="/ month" styleClass="money-suffix"/>
+                        </HBox>
+                        <Label text="Utilities per month" styleClass="field-label"/>
+                        <GridPane hgap="12" vgap="6">
+                            <columnConstraints>
+                                <ColumnConstraints percentWidth="33.33"/>
+                                <ColumnConstraints percentWidth="33.33"/>
+                                <ColumnConstraints percentWidth="33.33"/>
+                            </columnConstraints>
+                            <Label text="Wi-Fi" styleClass="mini-label" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                            <HBox styleClass="money-input" alignment="CENTER_LEFT" GridPane.rowIndex="1" GridPane.columnIndex="0">
+                                <Label text="\$" styleClass="money-prefix"/>
+                                <TextField fx:id="wifiField" promptText="0" styleClass="money-field" HBox.hgrow="ALWAYS"/>
+                            </HBox>
+                            <Label text="Electricity" styleClass="mini-label" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+                            <HBox styleClass="money-input" alignment="CENTER_LEFT" GridPane.rowIndex="1" GridPane.columnIndex="1">
+                                <Label text="\$" styleClass="money-prefix"/>
+                                <TextField fx:id="electricityField" promptText="0" styleClass="money-field" HBox.hgrow="ALWAYS"/>
+                            </HBox>
+                            <Label text="Laundry" styleClass="mini-label" GridPane.rowIndex="0" GridPane.columnIndex="2"/>
+                            <HBox styleClass="money-input" alignment="CENTER_LEFT" GridPane.rowIndex="1" GridPane.columnIndex="2">
+                                <Label text="\$" styleClass="money-prefix"/>
+                                <TextField fx:id="laundryField" promptText="0" styleClass="money-field" HBox.hgrow="ALWAYS"/>
+                            </HBox>
+                        </GridPane>
+                    </VBox>
+
+                    <!-- 4. Photos -->
+                    <VBox spacing="12" styleClass="card, form-section">
+                        <HBox spacing="12" alignment="CENTER_LEFT">
+                            <Label text="4" styleClass="step-badge"/>
+                            <VBox spacing="1">
+                                <Label text="Photos" styleClass="card-heading"/>
+                                <Label text="Listings with photos get far more messages. The first photo is the cover." styleClass="card-subheading"/>
+                            </VBox>
+                        </HBox>
+                        <VBox fx:id="dropZone" alignment="CENTER" spacing="6" styleClass="drop-zone">
+                            <StackPane fx:id="dropIcon" styleClass="drop-icon"/>
+                            <HBox alignment="CENTER" spacing="4">
+                                <Label text="Drag photos here, or" styleClass="drop-title"/>
+                                <Button fx:id="addPhotosButton" text="browse your files" onAction="#addPhotos" styleClass="link-button"/>
+                            </HBox>
+                            <Label fx:id="photoHint" text="JPG or PNG · up to 10 photos" styleClass="drop-hint"/>
+                        </VBox>
+                        <FlowPane fx:id="photosPane" hgap="12" vgap="12"/>
+                    </VBox>
+
+                    <!-- 5. Household -->
+                    <VBox spacing="12" styleClass="card, form-section">
+                        <HBox spacing="12" alignment="CENTER_LEFT">
+                            <Label text="5" styleClass="step-badge"/>
+                            <VBox spacing="1">
+                                <Label text="The household" styleClass="card-heading"/>
+                                <Label text="Who lives there, and who you'd like to live with." styleClass="card-subheading"/>
+                            </VBox>
+                        </HBox>
+                        <HBox>
+                            <Label text="Describe the household" styleClass="field-label"/>
+                            <Region HBox.hgrow="ALWAYS"/>
+                            <Label fx:id="descriptionCounter" styleClass="counter"/>
+                        </HBox>
+                        <TextArea fx:id="descriptionArea" wrapText="true" prefRowCount="5"
+                                  promptText="Who lives there? What are your routines, house rules and vibe? What's the room like?"/>
+
+                        <HBox styleClass="option-row" alignment="CENTER_LEFT" spacing="12">
+                            <VBox spacing="2" HBox.hgrow="ALWAYS">
+                                <Label text="Pet-friendly" styleClass="option-title"/>
+                                <Label text="Roommates can bring a pet." styleClass="option-hint"/>
+                            </VBox>
+                            <CheckBox fx:id="petFriendlyBox" styleClass="switch"/>
+                        </HBox>
+                        <HBox styleClass="option-row" alignment="CENTER_LEFT" spacing="12">
+                            <VBox spacing="2" HBox.hgrow="ALWAYS">
+                                <Label text="Smoking allowed" styleClass="option-title"/>
+                                <Label text="Leave off for a non-smoking home." styleClass="option-hint"/>
+                            </VBox>
+                            <CheckBox fx:id="smokingAllowedBox" styleClass="switch"/>
+                        </HBox>
+
+                        <GridPane hgap="16" vgap="6">
+                            <columnConstraints>
+                                <ColumnConstraints percentWidth="50"/>
+                                <ColumnConstraints percentWidth="25"/>
+                                <ColumnConstraints percentWidth="25"/>
+                            </columnConstraints>
+                            <Label text="Gender preference" styleClass="field-label" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                            <ComboBox fx:id="genderPreferenceBox" maxWidth="Infinity" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                            <Label text="Min age" styleClass="field-label" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+                            <TextField fx:id="minAgeField" promptText="Any" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+                            <Label text="Max age" styleClass="field-label" GridPane.rowIndex="0" GridPane.columnIndex="2"/>
+                            <TextField fx:id="maxAgeField" promptText="Any" GridPane.rowIndex="1" GridPane.columnIndex="2"/>
+                        </GridPane>
+                    </VBox>
+                </VBox>
+            </StackPane>
+        </ScrollPane>
+    </center>
+
+    <!-- Live preview and publish -->
+    <right>
+        <VBox styleClass="preview-panel" minWidth="380" prefWidth="380" maxWidth="380">
+            <ScrollPane fitToWidth="true" hbarPolicy="NEVER" styleClass="panel-scroll" VBox.vgrow="ALWAYS">
+                <VBox spacing="16" styleClass="preview-body">
+                    <VBox spacing="2">
+                        <Label text="Live preview" styleClass="panel-title"/>
+                        <Label text="How your room appears in Explore" styleClass="panel-subtitle"/>
+                    </VBox>
+                    <VBox spacing="10">
+                        <StackPane fx:id="previewHolder" alignment="TOP_CENTER"/>
+                        <Label fx:id="costSummaryLabel" styleClass="total-detail" wrapText="true" maxWidth="Infinity"/>
+                    </VBox>
+
+                    <VBox spacing="8">
+                        <Label text="Ready to publish?" styleClass="filter-heading"/>
+                        <VBox fx:id="checklistBox" spacing="7"/>
+                    </VBox>
+                </VBox>
+            </ScrollPane>
+            <VBox spacing="10" styleClass="preview-footer">
+                <Label fx:id="errorLabel" styleClass="error-label" wrapText="true" maxWidth="Infinity" visible="false" managed="false"/>
+                <HBox spacing="10">
+                    <Button text="Cancel" onAction="#cancel" styleClass="secondary-button, publish-button" minWidth="-Infinity"/>
+                    <Button fx:id="publishButton" text="Publish listing" onAction="#publish" styleClass="primary-button, publish-button"
+                            HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
+                </HBox>
+            </VBox>
+        </VBox>
+    </right>
+</BorderPane>

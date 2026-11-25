@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<HBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="controller.ProfileController" styleClass="profile-root">
+    <fx:define>
+        <ToggleGroup fx:id="sectionGroup"/>
+        <ToggleGroup fx:id="sleepGroup"/>
+    </fx:define>
+
+    <!-- Sidebar: who you are, how complete your profile is, where to go, and log out -->
+    <VBox styleClass="profile-sidebar" minWidth="280" prefWidth="280" maxWidth="280" spacing="22">
+        <VBox alignment="CENTER" spacing="6" styleClass="identity">
+            <StackPane fx:id="avatarHolder" styleClass="identity-avatar"/>
+            <Label fx:id="sidebarName" styleClass="identity-name" wrapText="true"/>
+            <Label fx:id="sidebarEmail" styleClass="identity-email"/>
+            <Label fx:id="memberSinceLabel" styleClass="identity-since"/>
+        </VBox>
+
+        <VBox spacing="8" styleClass="strength-card">
+            <HBox alignment="CENTER_LEFT">
+                <Label text="Profile strength" styleClass="strength-title"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <Label fx:id="completenessValue" styleClass="strength-value"/>
+            </HBox>
+            <ProgressBar fx:id="completenessBar" maxWidth="Infinity" styleClass="strength-bar"/>
+            <Label fx:id="completenessHint" styleClass="strength-hint" wrapText="true"/>
+        </VBox>
+
+        <VBox spacing="4">
+            <ToggleButton fx:id="navProfile" text="Profile" styleClass="side-nav" toggleGroup="$sectionGroup" maxWidth="Infinity"/>
+            <ToggleButton fx:id="navListings" text="My listings" styleClass="side-nav" toggleGroup="$sectionGroup" maxWidth="Infinity"/>
+            <ToggleButton fx:id="navMessages" text="Messages" styleClass="side-nav" toggleGroup="$sectionGroup" maxWidth="Infinity"/>
+            <ToggleButton fx:id="navSecurity" text="Password &amp; security" styleClass="side-nav" toggleGroup="$sectionGroup" maxWidth="Infinity"/>
+        </VBox>
+
+        <Region VBox.vgrow="ALWAYS"/>
+        <Button fx:id="logOutButton" text="Log out" styleClass="logout-button" onAction="#logOut" maxWidth="Infinity"/>
+    </VBox>
+
+    <!-- Sections: only one shows at a time -->
+    <StackPane HBox.hgrow="ALWAYS" styleClass="profile-content">
+
+        <!-- Profile -->
+        <ScrollPane fx:id="profileSection" fitToWidth="true" styleClass="page-scroll">
+            <StackPane alignment="TOP_CENTER">
+            <VBox spacing="20" maxWidth="780" styleClass="page">
+                <VBox spacing="4">
+                    <Label text="Your profile" styleClass="page-title"/>
+                    <Label text="Households see this when you message them, and it decides which rooms show as a good match for you."
+                           styleClass="page-subtitle" wrapText="true"/>
+                </VBox>
+
+                <VBox spacing="14" styleClass="card">
+                    <Label text="Basics" styleClass="card-heading"/>
+                    <GridPane hgap="16" vgap="6">
+                        <columnConstraints>
+                            <ColumnConstraints percentWidth="50"/>
+                            <ColumnConstraints percentWidth="50"/>
+                        </columnConstraints>
+                        <Label text="Full name" styleClass="field-label" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                        <TextField fx:id="nameField" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                        <Label text="Age" styleClass="field-label" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+                        <TextField fx:id="ageField" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+                        <Label text="Gender" styleClass="field-label" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                        <ComboBox fx:id="genderBox" maxWidth="Infinity" promptText="Choose…" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+                        <Label text="Phone (optional)" styleClass="field-label" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+                        <TextField fx:id="phoneField" promptText="Shared only when you message someone" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+
+                        <Label text="Email" styleClass="field-label" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+                        <Label fx:id="emailLabel" styleClass="readonly-field" maxWidth="Infinity" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
+                    </GridPane>
+                </VBox>
+
+                <VBox spacing="14" styleClass="card">
+                    <VBox spacing="2">
+                        <Label text="Lifestyle" styleClass="card-heading"/>
+                        <Label text="Used to match you with households whose rules fit how you live." styleClass="card-subheading" wrapText="true"/>
+                    </VBox>
+                    <Label text="Sleep schedule" styleClass="field-label"/>
+                    <HBox styleClass="segmented">
+                        <ToggleButton fx:id="earlyBirdToggle" text="Early bird" toggleGroup="$sleepGroup" styleClass="segment, segment-first" HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
+                        <ToggleButton fx:id="nightOwlToggle" text="Night owl" toggleGroup="$sleepGroup" styleClass="segment" HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
+                        <ToggleButton fx:id="flexibleToggle" text="Flexible" toggleGroup="$sleepGroup" styleClass="segment, segment-last" HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
+                    </HBox>
+                    <HBox styleClass="option-row" alignment="CENTER_LEFT" spacing="12">
+                        <VBox spacing="2" HBox.hgrow="ALWAYS">
+                            <Label text="I smoke" styleClass="option-title"/>
+                            <Label text="Non-smoking households won't show as a match." styleClass="option-hint"/>
+                        </VBox>
+                        <CheckBox fx:id="smokerBox" styleClass="switch"/>
+                    </HBox>
+                    <HBox styleClass="option-row" alignment="CENTER_LEFT" spacing="12">
+                        <VBox spacing="2" HBox.hgrow="ALWAYS">
+                            <Label text="I have pets" styleClass="option-title"/>
+                            <Label text="Only pet-friendly households will show as a match." styleClass="option-hint"/>
+                        </VBox>
+                        <CheckBox fx:id="petsBox" styleClass="switch"/>
+                    </HBox>
+                </VBox>
+
+                <VBox spacing="10" styleClass="card">
+                    <HBox alignment="CENTER_LEFT">
+                        <VBox spacing="2" HBox.hgrow="ALWAYS">
+                            <Label text="About me" styleClass="card-heading"/>
+                            <Label text="A few lines about your routines and what you're looking for. Profiles with a bio get more replies."
+                                   styleClass="card-subheading" wrapText="true"/>
+                        </VBox>
+                    </HBox>
+                    <TextArea fx:id="bioArea" wrapText="true" prefRowCount="4"
+                              promptText="e.g. Grad student at Northeastern, usually up early, love cooking on weekends…"/>
+                    <Label fx:id="bioCounter" styleClass="counter"/>
+                </VBox>
+
+                <HBox spacing="12" alignment="CENTER_LEFT" styleClass="save-bar">
+                    <Label fx:id="profileStatusLabel" wrapText="true" HBox.hgrow="ALWAYS" maxWidth="Infinity"
+                           visible="false" managed="false"/>
+                    <Region HBox.hgrow="ALWAYS"/>
+                    <Button text="Discard changes" onAction="#discardProfile" styleClass="text-button"/>
+                    <Button text="Save changes" onAction="#saveProfile" styleClass="primary-button"/>
+                </HBox>
+            </VBox>
+            </StackPane>
+        </ScrollPane>
+
+        <!-- My listings -->
+        <ScrollPane fx:id="listingsSection" fitToWidth="true" styleClass="page-scroll" visible="false">
+            <StackPane alignment="TOP_CENTER">
+            <VBox spacing="20" maxWidth="980" styleClass="page">
+                <HBox alignment="CENTER_LEFT" spacing="12">
+                    <VBox spacing="4" HBox.hgrow="ALWAYS">
+                        <Label text="My listings" styleClass="page-title"/>
+                        <Label text="Rooms you've posted. Edit them as things change, or remove them once they're filled."
+                               styleClass="page-subtitle" wrapText="true"/>
+                    </VBox>
+                    <Button fx:id="newPostButton" text="Post a room" onAction="#newPost" styleClass="primary-button"/>
+                </HBox>
+                <HBox fx:id="statsRow" spacing="14"/>
+                <VBox fx:id="myListingsBox" spacing="12"/>
+            </VBox>
+            </StackPane>
+        </ScrollPane>
+
+        <!-- Messages: conversations on the left, the open conversation on the right -->
+        <HBox fx:id="messagesSection" styleClass="messages" visible="false">
+            <VBox styleClass="conversation-column" minWidth="320" prefWidth="320" maxWidth="320">
+                <VBox spacing="2" styleClass="conversation-header">
+                    <Label text="Messages" styleClass="panel-title"/>
+                    <Label fx:id="conversationCount" styleClass="panel-subtitle"/>
+                </VBox>
+                <ScrollPane fitToWidth="true" hbarPolicy="NEVER" styleClass="panel-scroll" VBox.vgrow="ALWAYS">
+                    <VBox fx:id="conversationList"/>
+                </ScrollPane>
+            </VBox>
+            <StackPane HBox.hgrow="ALWAYS" styleClass="thread-column">
+                <VBox fx:id="threadPane" visible="false">
+                    <HBox fx:id="threadHeader" spacing="12" alignment="CENTER_LEFT" styleClass="thread-header"/>
+                    <ScrollPane fx:id="threadScroll" fitToWidth="true" hbarPolicy="NEVER" styleClass="thread-scroll" VBox.vgrow="ALWAYS">
+                        <VBox fx:id="threadBox" spacing="10" styleClass="thread-body"/>
+                    </ScrollPane>
+                    <HBox spacing="10" alignment="BOTTOM_LEFT" styleClass="composer">
+                        <TextArea fx:id="replyArea" wrapText="true" prefRowCount="2" HBox.hgrow="ALWAYS"
+                                  promptText="Write a reply…  (⌘ + Enter to send)" styleClass="composer-input"/>
+                        <Button fx:id="sendButton" text="Send" onAction="#sendReply" styleClass="primary-button" minWidth="-Infinity"/>
+                    </HBox>
+                </VBox>
+                <VBox fx:id="threadEmpty" alignment="CENTER" spacing="10" styleClass="empty-state-plain">
+                    <StackPane fx:id="threadEmptyIcon" styleClass="empty-icon"/>
+                    <Label fx:id="threadEmptyTitle" text="Select a conversation" styleClass="empty-title"/>
+                    <Label fx:id="threadEmptyText" text="Messages about your listings, and replies to rooms you asked about, show up here."
+                           styleClass="empty-text" wrapText="true" maxWidth="340"/>
+                </VBox>
+            </StackPane>
+        </HBox>
+
+        <!-- Password & security -->
+        <ScrollPane fx:id="securitySection" fitToWidth="true" styleClass="page-scroll" visible="false">
+            <StackPane alignment="TOP_CENTER">
+            <VBox spacing="20" maxWidth="640" styleClass="page">
+                <VBox spacing="4">
+                    <Label text="Password &amp; security" styleClass="page-title"/>
+                    <Label text="Keep your account safe. Passwords are stored as salted hashes, never as plain text."
+                           styleClass="page-subtitle" wrapText="true"/>
+                </VBox>
+                <VBox spacing="10" styleClass="card">
+                    <Label text="Change password" styleClass="card-heading"/>
+                    <Label text="Current password" styleClass="field-label"/>
+                    <PasswordField fx:id="currentPasswordField"/>
+                    <Label text="New password" styleClass="field-label"/>
+                    <PasswordField fx:id="newPasswordField"/>
+                    <Label text="Confirm new password" styleClass="field-label"/>
+                    <PasswordField fx:id="confirmPasswordField"/>
+                    <Label fx:id="passwordStatusLabel" wrapText="true" maxWidth="Infinity" visible="false" managed="false"/>
+                    <HBox>
+                        <Region HBox.hgrow="ALWAYS"/>
+                        <Button text="Update password" onAction="#changePassword" styleClass="primary-button"/>
+                    </HBox>
+                </VBox>
+                <HBox spacing="12" alignment="CENTER_LEFT" styleClass="card">
+                    <VBox spacing="2" HBox.hgrow="ALWAYS">
+                        <Label text="Log out" styleClass="card-heading"/>
+                        <Label text="You'll go back to the welcome page. Your listings and messages stay saved."
+                               styleClass="card-subheading" wrapText="true"/>
+                    </VBox>
+                    <Button text="Log out" onAction="#logOut" styleClass="danger-outline-button"/>
+                </HBox>
+            </VBox>
+            </StackPane>
+        </ScrollPane>
+    </StackPane>
+</HBox>

@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.effect.GaussianBlur?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
+
+<!-- The landing page shown before anyone logs in. -->
+<ScrollPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+            fx:controller="controller.WelcomeController" fx:id="scroll"
+            fitToWidth="true" hbarPolicy="NEVER" styleClass="welcome-scroll">
+    <VBox styleClass="welcome-root">
+
+        <!-- ======================================================= hero -->
+        <VBox styleClass="hero">
+            <!-- top nav -->
+            <HBox styleClass="welcome-nav" alignment="CENTER_LEFT" spacing="10">
+                <StackPane styleClass="logo-mark">
+                    <Label text="⌂" styleClass="logo-glyph"/>
+                </StackPane>
+                <Label text="Roommate Finder" styleClass="logo-text"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <Button text="How it works" onAction="#scrollToHowItWorks" styleClass="nav-link"/>
+                <Button text="Log in" onAction="#goToLogin" styleClass="nav-link"/>
+                <Button text="Get started" onAction="#goToRegister" styleClass="pill-button"/>
+            </HBox>
+
+            <HBox styleClass="hero-body" alignment="CENTER_LEFT" spacing="56">
+                <VBox spacing="22" HBox.hgrow="ALWAYS" maxWidth="620" minWidth="0">
+                    <HBox>
+                        <Label text="●  Rooms open now across Boston" styleClass="eyebrow-pill"/>
+                    </HBox>
+                    <Label text="Share a home with people you'll get along with."
+                           styleClass="hero-title" wrapText="true"/>
+                    <Label text="Current residents post their open room with the real cost of living there and the kind of roommate they're hoping for. You see right away whether you'd fit, then message the household directly. No landlords, no agents."
+                           styleClass="hero-subtitle" wrapText="true"/>
+                    <HBox spacing="12" alignment="CENTER_LEFT">
+                        <Button text="Get started, it's free" onAction="#goToRegister" styleClass="cta-button"/>
+                        <Button text="I have an account" onAction="#goToLogin" styleClass="ghost-button"/>
+                    </HBox>
+                    <HBox fx:id="statsBox" spacing="36" styleClass="stats-row"/>
+                </VBox>
+
+                <!-- live preview of real listings -->
+                <StackPane minWidth="400" prefWidth="420" prefHeight="440">
+                    <Circle radius="170" styleClass="hero-glow" translateX="40" translateY="-30">
+                        <effect><GaussianBlur radius="63"/></effect>
+                    </Circle>
+                    <Circle radius="120" styleClass="hero-glow-alt" translateX="-110" translateY="120">
+                        <effect><GaussianBlur radius="63"/></effect>
+                    </Circle>
+                    <Pane fx:id="previewPane" prefWidth="420" prefHeight="440" maxWidth="420" maxHeight="440"/>
+                </StackPane>
+            </HBox>
+        </VBox>
+
+        <!-- ======================================================= features -->
+        <VBox styleClass="section" spacing="10" alignment="TOP_CENTER">
+            <Label text="WHY ROOMMATE FINDER" styleClass="section-eyebrow"/>
+            <Label text="Everything you need to decide, before you reach out." styleClass="section-heading"
+                   wrapText="true" textAlignment="CENTER"/>
+            <HBox spacing="20" alignment="TOP_CENTER">
+                <padding><Insets top="30"/></padding>
+                <VBox styleClass="feature-card" spacing="10" HBox.hgrow="ALWAYS" maxWidth="340">
+                    <StackPane styleClass="feature-icon, icon-blue"><Label text="\$" styleClass="feature-glyph"/></StackPane>
+                    <Label text="The real monthly cost" styleClass="feature-title"/>
+                    <Label text="Rent plus Wi-Fi, electricity and laundry, added up for you. Short stays show the full daily cost, so there are no surprises after you move in."
+                           styleClass="feature-text" wrapText="true"/>
+                </VBox>
+                <VBox styleClass="feature-card" spacing="10" HBox.hgrow="ALWAYS" maxWidth="340">
+                    <StackPane styleClass="feature-icon, icon-green"><Label text="✓" styleClass="feature-glyph"/></StackPane>
+                    <Label text="Know if you'd fit" styleClass="feature-title"/>
+                    <Label text="Households say what they're looking for: pets, smoking, age range and more. Every listing checks it against your profile and tells you why if it's not a match."
+                           styleClass="feature-text" wrapText="true"/>
+                </VBox>
+                <VBox styleClass="feature-card" spacing="10" HBox.hgrow="ALWAYS" maxWidth="340">
+                    <StackPane styleClass="feature-icon, icon-orange"><Label text="✉" styleClass="feature-glyph, glyph-large"/></StackPane>
+                    <Label text="Talk to the people, not an agent" styleClass="feature-title"/>
+                    <Label text="Message the current residents straight from the listing. Listings only ever show the neighborhood, never the exact address."
+                           styleClass="feature-text" wrapText="true"/>
+                </VBox>
+            </HBox>
+        </VBox>
+
+        <!-- ======================================================= how it works -->
+        <VBox fx:id="howItWorks" styleClass="section, section-tinted" spacing="10" alignment="TOP_CENTER">
+            <Label text="HOW IT WORKS" styleClass="section-eyebrow"/>
+            <Label text="From open room to new roommate in three steps." styleClass="section-heading"
+                   wrapText="true" textAlignment="CENTER"/>
+            <HBox spacing="20" alignment="TOP_CENTER">
+                <padding><Insets top="30"/></padding>
+                <VBox styleClass="step" spacing="8" HBox.hgrow="ALWAYS" maxWidth="340">
+                    <Label text="01" styleClass="step-number"/>
+                    <Label text="Create your profile" styleClass="feature-title"/>
+                    <Label text="Tell households a little about you: smoking, pets, sleep schedule. It takes a minute."
+                           styleClass="feature-text" wrapText="true"/>
+                </VBox>
+                <VBox styleClass="step" spacing="8" HBox.hgrow="ALWAYS" maxWidth="340">
+                    <Label text="02" styleClass="step-number"/>
+                    <Label text="Browse or post a room" styleClass="feature-title"/>
+                    <Label text="Filter by budget, dates and lifestyle. Or list your own spare room for a semester or for good."
+                           styleClass="feature-text" wrapText="true"/>
+                </VBox>
+                <VBox styleClass="step" spacing="8" HBox.hgrow="ALWAYS" maxWidth="340">
+                    <Label text="03" styleClass="step-number"/>
+                    <Label text="Message the household" styleClass="feature-title"/>
+                    <Label text="Found a place that fits? Say hello. Replies land in your inbox under Profile."
+                           styleClass="feature-text" wrapText="true"/>
+                </VBox>
+            </HBox>
+        </VBox>
+
+        <!-- ======================================================= closing call to action -->
+        <VBox styleClass="section" alignment="TOP_CENTER">
+            <VBox styleClass="cta-band" spacing="14" alignment="CENTER" maxWidth="1060">
+                <Label text="Your next roommate is one message away." styleClass="cta-title"
+                       wrapText="true" textAlignment="CENTER"/>
+                <Label text="Join free and see which households are looking for someone like you."
+                       styleClass="cta-subtitle" wrapText="true" textAlignment="CENTER"/>
+                <HBox spacing="12" alignment="CENTER">
+                    <padding><Insets top="8"/></padding>
+                    <Button text="Create your free account" onAction="#goToRegister" styleClass="cta-button-light"/>
+                    <Button text="Log in" onAction="#goToLogin" styleClass="ghost-button-light"/>
+                </HBox>
+            </VBox>
+        </VBox>
+
+        <!-- ======================================================= footer -->
+        <HBox styleClass="welcome-footer" alignment="CENTER_LEFT" spacing="10">
+            <Label text="⌂  Roommate Finder" styleClass="footer-brand"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Label text="Find your people. Share your space." styleClass="footer-text"/>
+        </HBox>
+    </VBox>
+</ScrollPane>

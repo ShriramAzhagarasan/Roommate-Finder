@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<ScrollPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+            fx:controller="controller.ListingDetailsController" fitToWidth="true" styleClass="page-scroll">
+    <StackPane>
+        <VBox spacing="16" maxWidth="1060" styleClass="page">
+            <HBox>
+                <Button text="← Back" onAction="#goBack" styleClass="back-button"/>
+            </HBox>
+            <Label fx:id="bannerLabel" styleClass="success-label" wrapText="true" maxWidth="Infinity" visible="false" managed="false"/>
+
+            <!-- Header -->
+            <HBox spacing="16">
+                <VBox spacing="6" HBox.hgrow="ALWAYS">
+                    <Label fx:id="titleLabel" styleClass="page-title" wrapText="true"/>
+                    <HBox fx:id="badgesBox" spacing="8"/>
+                    <Label fx:id="locationLabel" styleClass="muted" wrapText="true"/>
+                </VBox>
+                <VBox spacing="2" alignment="TOP_RIGHT" minWidth="-Infinity">
+                    <Label fx:id="priceLabel" styleClass="price-big"/>
+                    <Label fx:id="totalLabel" styleClass="muted"/>
+                </VBox>
+            </HBox>
+
+            <HBox spacing="24">
+                <!-- Left column: photos and household -->
+                <VBox spacing="16" HBox.hgrow="ALWAYS">
+                    <VBox spacing="10" styleClass="card">
+                        <StackPane fx:id="mainPhotoHolder"/>
+                        <HBox spacing="8" alignment="CENTER_LEFT">
+                            <Button fx:id="prevPhotoButton" text="‹" onAction="#previousPhoto" styleClass="gallery-arrow"/>
+                            <HBox fx:id="thumbnailsBox" spacing="8" HBox.hgrow="ALWAYS"/>
+                            <Button fx:id="nextPhotoButton" text="›" onAction="#nextPhoto" styleClass="gallery-arrow"/>
+                        </HBox>
+                    </VBox>
+
+                    <VBox spacing="8" styleClass="card">
+                        <Label text="About the household" styleClass="section-title"/>
+                        <Label fx:id="residentsLabel" styleClass="field-label" wrapText="true"/>
+                        <Label fx:id="descriptionLabel" wrapText="true" styleClass="body-text"/>
+                    </VBox>
+
+                    <VBox spacing="8" styleClass="card">
+                        <Label text="Roommate criteria" styleClass="section-title"/>
+                        <VBox fx:id="criteriaBox" spacing="6"/>
+                    </VBox>
+                </VBox>
+
+                <!-- Right column: contact, costs, availability, compatibility -->
+                <VBox spacing="16" minWidth="330" maxWidth="330" prefWidth="330">
+                    <VBox spacing="8" styleClass="card">
+                        <Label fx:id="contactTitle" text="Current residents" styleClass="section-title"/>
+                        <VBox fx:id="ownerBox" spacing="4"/>
+                        <Label fx:id="contactedLabel" styleClass="hint" wrapText="true" visible="false" managed="false"/>
+                        <Button fx:id="contactButton" text="Contact household" onAction="#contactOwner"
+                                styleClass="primary-button" maxWidth="Infinity"/>
+                        <HBox fx:id="ownerActions" spacing="8" visible="false" managed="false">
+                            <Button text="Edit listing" onAction="#editListing" HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
+                            <Button text="Delete" onAction="#deleteListing" styleClass="danger-button"/>
+                        </HBox>
+                    </VBox>
+
+                    <VBox spacing="8" styleClass="card">
+                        <Label text="Cost breakdown" styleClass="section-title"/>
+                        <Label fx:id="costNoteLabel" styleClass="hint" wrapText="true"/>
+                        <GridPane fx:id="costGrid" hgap="10" vgap="6">
+                            <columnConstraints>
+                                <ColumnConstraints hgrow="ALWAYS"/>
+                                <ColumnConstraints halignment="RIGHT"/>
+                            </columnConstraints>
+                        </GridPane>
+                    </VBox>
+
+                    <VBox spacing="6" styleClass="card">
+                        <Label text="Availability" styleClass="section-title"/>
+                        <VBox fx:id="availabilityBox" spacing="4"/>
+                    </VBox>
+
+                    <VBox fx:id="compatibilityCard" spacing="6" styleClass="card">
+                        <Label text="Is it a match?" styleClass="section-title"/>
+                        <VBox fx:id="compatibilityBox" spacing="4"/>
+                    </VBox>
+                </VBox>
+            </HBox>
+        </VBox>
+    </StackPane>
+</ScrollPane>
